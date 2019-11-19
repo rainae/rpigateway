@@ -1,0 +1,23 @@
+HOW-TO:
+
+* Change uplink wlan:
+  
+    Edit wpa_supplicant.conf and enter ssid and password of the uplink wlan.
+
+* Change the name and the password of the Access point:
+  
+    Edit the file hostapd.conf and change the parameters ssid and wpa_passphrase
+
+* Modify the domain:
+  
+    Edit the file hosts: modify the entry for the ip 192.168.100.1
+
+    Edit the file dnsmasq.conf: modify the line "address=/.rpi.iot.at.thales/192.168.100.1" to match the domain
+
+    Edit the file docker-compose.yml: modify the entries for the environment variable "VIRTUAL_HOST"
+
+    restart dnsmasq
+
+    stop docker-services: "docker-compose down"
+
+    start docker-services: "docker-compose up"
