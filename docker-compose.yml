@@ -17,7 +17,7 @@ services:
             - mosquitto-data:/mosquitto/data
             - mosquitto-log:/mosquitto/log
             - VIRTUAL_PORT=9001
-            - VIRTUAL_HOST=mqtt.rpi.iot.at.thales
+            - VIRTUAL_HOST=mqtt.rainer-XPS-13-9343
         networks:
             - backend
         restart: always
@@ -33,7 +33,7 @@ services:
         volumes:
             - influxdb-data:/var/lib/influxdb
         environment:
-            - VIRTUAL_HOST=influxdb.rpi.iot.at.thales
+            - VIRTUAL_HOST=influxdb.rainer-XPS-13-9343
             - VIRTUAL_PORT=8083
         networks:
             - backend
@@ -47,7 +47,7 @@ services:
         expose:
             - 3000
         environment:
-            - VIRTUAL_HOST=grafana.rpi.iot.at.thales
+            - VIRTUAL_HOST=grafana.rainer-XPS-13-9343
             - VIRTUAL_PORT=3000
         networks:
             - backend
@@ -61,19 +61,22 @@ services:
         expose:
             - 1880
         environment:
-            - VIRTUAL_HOST=nodered.rpi.iot.at.thales
+            - VIRTUAL_HOST=nodered.rainer-XPS-13-9343
             - VIRTUAL_PORT=1880
         networks:
             - backend
         restart: always
   
     nginx:
-        image: jwilder/nginx-proxy:alpine-arm
+        image: jwilder/nginx-proxy:alpine
         container_name: nginx
         ports:
             - 80:80
         volumes:
             - /var/run/docker.sock:/tmp/docker.sock:ro
+            - ${WORKSPACE}/index.html:/www/data/index.html
+            - ${WORKSPACE}/mynginx.conf:/etc/nginx/conf.d/mynginx.conf
+            - ${WORKSPACE}/nginx.tmpl:/app/nginx.tmpl
         networks:
             - backend
         restart: always
